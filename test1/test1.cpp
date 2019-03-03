@@ -1241,7 +1241,19 @@ void Chapter10()
 	auto result = find(ivec.cbegin(), ivec.cend(), val);
 	cout << "the value " << val << (result == ivec.cend() ? " is not present" : " is present") << endl;
 	//10.1
-	//auto cnt = 
+	vector <int> ivec{ 1,2,1,2,4,5,6,1,2,1 };
+	int val = 1;
+	int countn = 0;
+	for (auto it : ivec)
+	{
+		if (it == val)
+			++countn;
+	}
+	cout << count(ivec.cbegin(),ivec.cend(),val) << endl;
+
+	//10.2
+	list <string> slist{ "a","b","a","c" };
+	cout << count(slist.cbegin(), slist.cend(), "a") << endl;
 }
 
 int main(int argc,char *argv[])
