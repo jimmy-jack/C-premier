@@ -12,7 +12,12 @@
 #include <list>
 #include <forward_list>
 #include <deque>
+
 #include <algorithm>
+#include <numeric> 
+
+#include <iterator>
+
 //#define NDEBUG
 #include <cassert>
 using namespace std;
@@ -688,8 +693,8 @@ private:
 
 class Screen
 {
-	//friend class Window_mgr;
-	friend void Window_mgr::clear(ScreenIndex i);
+	friend class Window_mgr;
+	//friend void Window_mgr::clear(ScreenIndex i);
 public:
 	typedef string::size_type pos;
 	Screen() = default;
@@ -1233,27 +1238,103 @@ void Chapter9()
 	
 }
 
+//10.12
+bool compareIsbn(Sales_data &sd1, Sales_data &sd2)
+{
+	return sd1.isbn().size() < sd2.isbn().size();
+}
+
+//10.13
+bool myPartition_5(const string &s)
+{
+	return s.size() >= 5;
+}
+
 void Chapter10()
 {
 	//find
-	vector<int> ivec{1,2,3,4,42,45,42,42};
+	/*vector<int> ivec{1,2,3,4,42,45,42,42};
 	int val = 42;
 	auto result = find(ivec.cbegin(), ivec.cend(), val);
-	cout << "the value " << val << (result == ivec.cend() ? " is not present" : " is present") << endl;
+	cout << "the value " << val << (result == ivec.cend() ? " is not present" : " is present") << endl;*/
 	//10.1
-	vector <int> ivec{ 1,2,1,2,4,5,6,1,2,1 };
-	int val = 1;
-	int countn = 0;
-	for (auto it : ivec)
-	{
-		if (it == val)
-			++countn;
-	}
-	cout << count(ivec.cbegin(),ivec.cend(),val) << endl;
+	//vector <int> ivec{ 1,2,1,2,4,5,6,1,2,1 };
+	//int val = 1;
+	//int countn = 0;
+	//for (auto it : ivec)
+	//{
+	//	if (it == val)
+	//		++countn;
+	//}
+	//cout << count(ivec.cbegin(),ivec.cend(),val) << endl;
 
-	//10.2
-	list <string> slist{ "a","b","a","c" };
-	cout << count(slist.cbegin(), slist.cend(), "a") << endl;
+	////10.2
+	//list <string> slist{ "a","b","a","c" };
+	//cout << count(slist.cbegin(), slist.cend(), "a") << endl;
+
+	//readOnly alg
+	//10.3
+	//vector<int> ivec{ 1,2,3 };
+	//int sum = accumulate(ivec.cbegin(), ivec.cend(), 0);
+	//cout << sum << endl;
+	//fill_n(back_inserter(ivec), 10, 0);
+	//
+	////write alg
+	////10.6
+	//fill_n(ivec.begin(), ivec.size(), 0);
+
+	//resort
+	//10.9
+	/*void elimDups(vector<string> &str);
+	vector<string> str{ "cat","dog","apple","ban","cat","ban" };
+	elimDups(str);
+	for (auto s : str)
+		cout << s << endl;*/
+
+	//Custumize alg
+	//pass parameters to alg
+	//10.11
+	/*void elimDups(vector<string> &str);
+	vector<string> str{ "cat","dog","apple","ban","cat","ban" };
+	elimDups(str);
+	bool isShorter(const string &s1, const string &s2);
+	stable_sort(str.begin(), str.end(), isShorter);
+	for (auto s : str)
+		cout << s << endl;*/
+
+	//10.13
+	/*vector<string> str2{ "cat","dog","apple","ban","cat","ban","morethan5" };
+	auto str2_p =  partition(str2.begin(), str2.end(), myPartition_5);
+	for (auto it = str2.cbegin(); it != str2_p; ++it)
+	{
+		cout << *it << endl;
+	}*/
+
+	//lambda expression
+	auto f = [] {return 42; };
+	cout << f() << endl;
+	void elimDups(vector<string> &str);
+	vector<string> str{ "cat","dog","apple","ban","cat","ban" };
+	elimDups(str);
+	
+	stable_sort(str.begin(), str.end(), [](const string &a, const string &b)
+	{return a.size() < b.size(); });
+	for (auto s : str)
+		cout << s << endl;
+
+
+}
+
+bool isShorter(const string &s1,const string &s2)
+{
+	return s1.size() < s2.size();
+}
+
+void elimDups(vector<string> &str)
+{
+	sort(str.begin(), str.end());
+	auto u_end = unique(str.begin(), str.end());
+	str.erase(u_end, str.end());
 }
 
 int main(int argc,char *argv[])
